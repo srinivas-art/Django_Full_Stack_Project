@@ -1,0 +1,48 @@
+{% extends "delivery/cusbase.html" %} {% block content %}
+<div style="margin-top: 50px"></div>
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Menu - {{ res.Res_name }}</title>
+  </head>
+  <body>
+    <h2>Menu for {{ res.Res_name }}</h2>
+    <p>Address: {{ res.address }}</p>
+    <p>Category: {{ res.Food_cat }}</p>
+    <p>Rating: {{ res.rating }}</p>
+
+    <table border="1" style="width: 100vw">
+      <tr>
+        <th>Item Name</th>
+        <th>Description</th>
+        <th>Price</th>
+        <th>Availability</th>
+        <th>Category</th>
+        <th>Action</th>
+        <!-- New column for Add to Cart button -->
+      </tr>
+      {% for item in menu %}
+      <tr>
+        <td>{{ item.item_name }}</td>
+        <td>{{ item.description }}</td>
+        <td>${{ item.price }}</td>
+        <td>
+          {% if item.is_available %}Available{% else %}Not Available{% endif %}
+        </td>
+        <td>{{ item.category }}</td>
+        <td>
+          <form method="POST" action="{}">
+            {% csrf_token %}
+            <button type="submit">Add to Cart</button>
+          </form>
+        </td>
+      </tr>
+      {% empty %}
+      <tr>
+        <td colspan="6">No menu items available.</td>
+      </tr>
+      {% endfor %}
+    </table>
+  </body>
+</html>
+{% endblock %}
